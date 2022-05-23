@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>To do list</title>
+    <link href="https://fonts.googleapis.com/css2?family=Fjalla+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./todolist.css">
+  </head>
+  <body>
+    <section>
+    <a id="list">
+    <div class="container">
+      <p><label for="new-task">What I'm going to do</label><input id="new-task" type="text"><button>Add</button></p>
+      <h1>In progress</h1>
+      <ul id="incomplete-tasks">
+        <li class="editMode">
+          <input type="checkbox"><label></label><input type="text" value="An example"><button class="edit">Edit</button><button class="delete">Delete</button>
+        </li>
+      </ul>
+      <h1>Completed!</h1>
+      <ul id="completed-tasks">
+        <li>
+          <input type="checkbox" checked><label></label><input type="text"><button class="edit">Check</button><button class="delete">Delete</button>
+        </li>
+      </ul>
+    </div>
+  </a>
+  </section>
+  </body>
+  <script src="./todolist.js"></script>
+</html>
+
