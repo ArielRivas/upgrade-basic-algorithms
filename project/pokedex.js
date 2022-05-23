@@ -1,8 +1,8 @@
 const pokedex = document.getElementById("pokedex")
-const poke_container = document.getElementById('poke_container');
-const searching = document.querySelector(".input");
-const pokemons_number = 151;
-const colors = {
+const container = document.getElementById('container');
+const searching = document.getElementById("input")
+const quantityOfPokes = 151;
+const colorsMap = {
 	fire: '#f27059',
 	grass: '#74c69d',
 	electric: '#FFFF33',
@@ -18,51 +18,36 @@ const colors = {
 	fighting: '#E9967A',
 	normal: '#F5F5F5'
 };
-const main_types = Object.keys(colors);
 
-const fetchPokemons = async () => {
-	for (let i = 1; i <= pokemons_number; i++) {
-		await getPokemon(i);
+const mainTypeColors = Object.keys(colorsMap);
+
+const getPokeFromApi = async () => {
+	for (let iD = 1; iD <= quantityOfPokes; iD++) {
+		await getPokemons(iD);
 	}
 };
 
-const getPokemon = async (id) => {
+const getPokemons = async (id) => {
 	const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
-	const res = await fetch(url);
-	const pokemon = await res.json();
-	searching.addEventListener("input", () => search(pokemon));
+	const results = await fetch(url);
+	const pokemon = await results.json();
 	createPokemonCard(pokemon);
+	
+	
 };
 
 function createPokemonCard(pokemon) {
 	const pokecards = document.createElement('div');
 	pokecards.classList.add('pokemon');
 
-	const poke_types = pokemon.types.map(type => type.type.name);
-	const type = main_types.find(type => poke_types.indexOf(type) > -1);
-	const type2 = main_types.find(type => poke_types.indexOf(type) > 0)
+	const allTypes = pokemon.types.map(type => type.type.name);
+	const type = mainTypeColors.find(type => allTypes.indexOf(type) > -1);
 	const name = pokemon.name[0].toUpperCase() + pokemon.name.slice(1);
-	const color = colors[type];
+	const color = colorsMap[type] || colorsMap.normal;
 	
 	pokecards.style.backgroundColor = color;
 
-if(pokemon.type2 === true){
-	const pokeInnerHTML = 
-  `
-        <div class="img-container">
-        <img src="${pokemon.sprites}" alt="${name}">
-        </div>
-        <div class="info">
-            <span class="number">#${pokemon.id.toString().padStart(3, '0')}</span>
-            <h2 class="name">${name}</h2>
-            <p class="type">Type: <span>${type} ${type2}</span></p>
-        </div>
-    `;
-
-	pokecards.innerHTML = pokeInnerHTML;
-
-	poke_container.appendChild(pokecards);
-}else (pokemon.type2 === false)
+if(pokemon.types[1]){
 	const pokeInnerHTML = 
   `
         <div class="img-container">
@@ -71,14 +56,37 @@ if(pokemon.type2 === true){
         <div class="info">
             <span class="number">#${pokemon.id.toString().padStart(3, '0')}</span>
             <h2 class="name">${name}</h2>
-            <p class="type">Type: <span>${type}</span></p>
+            <p class="type"><span>${pokemon.types[0].type.name}, ${pokemon.types[1].type.name}</span></p>
         </div>
     `;
 
 	pokecards.innerHTML = pokeInnerHTML;
+    container.appendChild(pokecards);
 
-	poke_container.appendChild(pokecards);
 }
+else {
+	const pokeInnerHTML = 
+    `
+        <div class="img-container">
+        <img src="${pokemon.sprites.other.dream_world.front_default}" alt="${name}">
+        </div>
+        <div class="info">
+            <span class="number">#${pokemon.id.toString().padStart(3, '0')}</span>
+            <h2 class="name">${name}</h2>
+            <p class="type"><span>${pokemon.types[0].type.name}</span></p>
+        </div>
+    `;
 
+	pokecards.innerHTML = pokeInnerHTML;
+    container.appendChild(pokecards);
+}
+};
 
-fetchPokemons();
+const init = () => {
+	getPokeFromApi();
+	searching.addEventListener("input", (event) => {
+		console.log(event.target.value);
+	})
+}
+window.onload = init;
+
