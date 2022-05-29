@@ -10,8 +10,8 @@
 
 	let newDiv2 = document.createElement("div");
 	let newP = document.createElement("p");
-	newDiv.appendChild(newP);
-	document.body.appendChild(newP);
+	newDiv2.appendChild(newDiv);
+	newP.body.appendChild(newDiv2);
 
 //2.3 Inserta dinamicamente en un html un div que contenga 6 p utilizando un loop con javascript.
 
@@ -53,6 +53,9 @@ for (let index = 0; index <= 6; index++) {
 document.body.appendChild(newulFirst);
 
 //2.7 Elimina todos los nodos que tengan la clase .fn-remove-me
+
+const remove = document.querySelector(".fn-remove-me");
+remove.innerHTML = ``;
 
 //2.8 Inserta una p con el texto 'Voy en medio!' entre los dos div. 
 	//Recuerda que no solo puedes insertar elementos con .appendChild.
